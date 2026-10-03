@@ -1,0 +1,83 @@
+services:
+  - type: web
+    name: customer-message-triage-api
+    runtime: docker
+    plan: free
+    dockerCommand: uvicorn app.api:app --host=0.0.0.0 --port=$PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: customer-message-triage-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: customer-message-triage-queue
+          property: connectionString
+      - key: WHATSAPP_VERIFY_TOKEN
+        sync: false
+      - key: WHATSAPP_APP_SECRET
+        sync: false
+      - key: WHATSAPP_BRAND
+        value: vitalis-wellness
+      - key: INSTAGRAM_VERIFY_TOKEN
+        sync: false
+      - key: INSTAGRAM_APP_SECRET
+        sync: false
+      - key: INSTAGRAM_BRAND
+        value: hair-studio
+      - key: EMAIL_BRAND
+        value: vitalis-wellness
+
+  - type: worker
+    name: customer-message-triage-worker
+    runtime: docker
+    plan: starter
+    dockerCommand: python -m app.worker
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: customer-message-triage-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: customer-message-triage-queue
+          property: connectionString
+      - key: OLLAMA_MODEL
+        sync: false
+      - key: OLLAMA_BASE_URL
+        sync: false
+
+  - type: web
+    name: customer-message-triage-ui
+    runtime: docker
+    plan: free
+    dockerCommand: streamlit run app/ui.py --server.address=0.0.0.0 --server.port=$PORT
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: customer-message-triage-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: customer-message-triage-queue
+          property: connectionString
+
+  - type: keyvalue
+    name: customer-message-triage-queue
+    plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: Render services
+
+# Render Postgres is the durable application database.
+databases:
+  - name: customer-message-triage-db
+    plan: free
+    databaseName: triage
+    user: triage

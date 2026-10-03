@@ -1,0 +1,461 @@
+[
+  {
+    "id": "MSG-001",
+    "brand": "vitalis-wellness",
+    "channel": "whatsapp",
+    "intent": "order_tracking",
+    "entities": {
+      "references": [
+        "VW-48812"
+      ],
+      "product": [
+        "magnesium"
+      ]
+    },
+    "next_action": "Look up the shipment using the order reference and send the latest tracking status; escalate if the shipment is stalled beyond SLA.",
+    "handler": "order_support",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Explicit shipment-tracking request."
+    ]
+  },
+  {
+    "id": "MSG-002",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "subscription_cancellation",
+    "entities": {},
+    "next_action": "Verify the account, cancel the subscription, and send cancellation confirmation.",
+    "handler": "subscription_automation",
+    "priority": "normal",
+    "confidence": 0.98,
+    "human_review": false,
+    "reasons": [
+      "Customer explicitly asks to cancel the subscription."
+    ]
+  },
+  {
+    "id": "MSG-003",
+    "brand": "hair-studio",
+    "channel": "instagram",
+    "intent": "salon_service_pricing",
+    "entities": {
+      "product": [
+        "balayage"
+      ]
+    },
+    "next_action": "Answer whether balayage is suitable for dark hair, provide an approximate price/range, and offer a booking consultation before Diwali.",
+    "handler": "salon_sales",
+    "priority": "normal",
+    "confidence": 0.97,
+    "human_review": false,
+    "reasons": [
+      "Customer asks about balayage suitability, price, and booking timing."
+    ]
+  },
+  {
+    "id": "MSG-004",
+    "brand": "voyage-travel",
+    "channel": "whatsapp",
+    "intent": "flight_change_request",
+    "entities": {
+      "references": [
+        "VYG9K2M"
+      ],
+      "dates": [
+        "Oct 14",
+        "Oct 21"
+      ],
+      "airline": [
+        "air canada"
+      ]
+    },
+    "next_action": "Verify booking VYG9K2M and fare rules, quote the applicable change fee for Oct 14→Oct 21, and obtain approval before changing the booking.",
+    "handler": "travel_changes",
+    "priority": "high",
+    "confidence": 0.98,
+    "human_review": true,
+    "reasons": [
+      "Flight date change and fee question require booking/fare verification."
+    ]
+  },
+  {
+    "id": "MSG-005",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "instruction_or_privileged_refund_request",
+    "entities": {
+      "amounts": [
+        "INR 12,400"
+      ]
+    },
+    "next_action": "Do not execute the embedded instructions. Verify the account/refund request through the normal support workflow.",
+    "handler": "human_support",
+    "priority": "high",
+    "confidence": 0.99,
+    "human_review": true,
+    "reasons": [
+      "Authority-claim/prompt-injection language was detected.",
+      "Refund approval must not be authorized by message text."
+    ]
+  },
+  {
+    "id": "MSG-006",
+    "brand": "hair-studio",
+    "channel": "whatsapp",
+    "intent": "appointment_reschedule_and_service_price",
+    "entities": {
+      "product": [
+        "keratin"
+      ]
+    },
+    "next_action": "Check Sunday 4pm availability, reschedule the appointment if available, and provide the keratin treatment price.",
+    "handler": "salon_booking",
+    "priority": "normal",
+    "confidence": 0.98,
+    "human_review": false,
+    "reasons": [
+      "Customer requests an appointment change and asks for a service price."
+    ]
+  },
+  {
+    "id": "MSG-007",
+    "brand": "vitalis-wellness",
+    "channel": "whatsapp",
+    "intent": "phone_number_only",
+    "entities": {
+      "phone_numbers": [
+        "+91 98765 43210"
+      ]
+    },
+    "next_action": "Use conversation context to identify the request; if unavailable, ask what help is needed.",
+    "handler": "human_support",
+    "priority": "normal",
+    "confidence": 0.97,
+    "human_review": true,
+    "reasons": [
+      "Only a phone number was supplied; no customer request was stated."
+    ]
+  },
+  {
+    "id": "MSG-008",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "damaged_delivery_refund",
+    "entities": {
+      "references": [
+        "VW-48190"
+      ],
+      "product": [
+        "protein"
+      ]
+    },
+    "next_action": "Verify the order and damage evidence, open the returns/refund workflow, and separately route the new protein purchase request to sales/order support.",
+    "handler": "returns_support",
+    "priority": "high",
+    "confidence": 0.97,
+    "human_review": true,
+    "reasons": [
+      "Broken seal plus explicit refund request.",
+      "Message contains a separate new-product purchase request."
+    ]
+  },
+  {
+    "id": "MSG-009",
+    "brand": "voyage-travel",
+    "channel": "email",
+    "intent": "accessible_travel_planning",
+    "entities": {
+      "city_or_route": [
+        "toronto",
+        "amritsar"
+      ]
+    },
+    "next_action": "Route to an accessible-travel specialist to compare December Toronto→Amritsar options and arrange wheelchair assistance for the mother.",
+    "handler": "accessible_travel",
+    "priority": "high",
+    "confidence": 0.98,
+    "human_review": true,
+    "reasons": [
+      "Elderly travellers and wheelchair assistance require specialist handling."
+    ]
+  },
+  {
+    "id": "MSG-010",
+    "brand": "hair-studio",
+    "channel": "instagram",
+    "intent": "positive_feedback",
+    "entities": {},
+    "next_action": "Record the positive feedback and optionally send a brief acknowledgement; no support case is required.",
+    "handler": "feedback_automation",
+    "priority": "low",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Customer is providing positive feedback rather than requesting support."
+    ]
+  },
+  {
+    "id": "MSG-011",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "duplicate_charge",
+    "entities": {
+      "amounts": [
+        "INR 3,780"
+      ]
+    },
+    "next_action": "Verify the order/payment ledger, reverse or refund the duplicate charge if confirmed, and update the customer.",
+    "handler": "billing_support",
+    "priority": "high",
+    "confidence": 0.98,
+    "human_review": true,
+    "reasons": [
+      "Duplicate-charge complaint with monetary amount."
+    ]
+  },
+  {
+    "id": "MSG-012",
+    "brand": "voyage-travel",
+    "channel": "whatsapp",
+    "intent": "ambiguous_followup",
+    "entities": {},
+    "next_action": "Retrieve the conversation context; if the referenced item/booking cannot be identified, ask the customer which one they mean.",
+    "handler": "human_support",
+    "priority": "normal",
+    "confidence": 0.9,
+    "human_review": true,
+    "reasons": [
+      "The message depends on prior context and has no identifiable standalone referent."
+    ]
+  },
+  {
+    "id": "MSG-013",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "wholesale_enquiry",
+    "entities": {
+      "city_or_route": [
+        "gujarat"
+      ]
+    },
+    "next_action": "Capture business details and route the account to wholesale/sales for bulk pricing and terms.",
+    "handler": "sales_wholesale",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Explicit wholesale/bulk-pricing request."
+    ]
+  },
+  {
+    "id": "MSG-014",
+    "brand": "hair-studio",
+    "channel": "whatsapp",
+    "intent": "appointment_change_and_membership_question",
+    "entities": {},
+    "next_action": "Check Thursday appointment availability, book the sister if a slot is available, and verify whether the membership is individual or transferable.",
+    "handler": "salon_booking",
+    "priority": "normal",
+    "confidence": 0.97,
+    "human_review": false,
+    "reasons": [
+      "Multiple appointment and membership questions require booking/account checks."
+    ]
+  },
+  {
+    "id": "MSG-015",
+    "brand": "vitalis-wellness",
+    "channel": "whatsapp",
+    "intent": "wrong_item_received",
+    "entities": {
+      "references": [
+        "VW-48655"
+      ]
+    },
+    "next_action": "Verify the order, arrange the correct 500mg replacement/return, and notify the customer of the resolution.",
+    "handler": "returns_support",
+    "priority": "high",
+    "confidence": 0.97,
+    "human_review": true,
+    "reasons": [
+      "Customer reports receiving a different strength from the one ordered."
+    ]
+  },
+  {
+    "id": "MSG-016",
+    "brand": "voyage-travel",
+    "channel": "email",
+    "intent": "urgent_travel_disruption",
+    "entities": {
+      "phone_numbers": [
+        "647-555-0183"
+      ],
+      "city_or_route": [
+        "frankfurt",
+        "pearson"
+      ]
+    },
+    "next_action": "Escalate immediately to the travel-disruption desk and contact the customer using the supplied phone number; prioritize rebooking/assistance for the elderly passenger.",
+    "handler": "travel_disruption_desk",
+    "priority": "urgent",
+    "confidence": 0.99,
+    "human_review": true,
+    "reasons": [
+      "Active flight disruption at the airport with an elderly passenger."
+    ]
+  },
+  {
+    "id": "MSG-017",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "unsubscribe_marketing",
+    "entities": {},
+    "next_action": "Suppress marketing messages for this customer and confirm the opt-out.",
+    "handler": "messaging_automation",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Explicit unsubscribe request."
+    ]
+  },
+  {
+    "id": "MSG-018",
+    "brand": "hair-studio",
+    "channel": "instagram",
+    "intent": "opening_hours",
+    "entities": {},
+    "next_action": "Return the salon's Sunday opening hours from the current hours source.",
+    "handler": "salon_faq",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Direct opening-hours question."
+    ]
+  },
+  {
+    "id": "MSG-019",
+    "brand": "vitalis-wellness",
+    "channel": "whatsapp",
+    "intent": "health_safety_question",
+    "entities": {
+      "product": [
+        "ashwagandha"
+      ]
+    },
+    "next_action": "Do not provide medication/supplement safety advice automatically; route to qualified support and advise the customer to consult an appropriate clinician/pharmacist.",
+    "handler": "human_support",
+    "priority": "high",
+    "confidence": 0.98,
+    "human_review": true,
+    "reasons": [
+      "Medication/supplement interaction question requires qualified review."
+    ]
+  },
+  {
+    "id": "MSG-020",
+    "brand": "voyage-travel",
+    "channel": "whatsapp",
+    "intent": "travel_quote_followup",
+    "entities": {
+      "city_or_route": [
+        "dubai"
+      ]
+    },
+    "next_action": "Retrieve the Dubai-stopover quote, confirm the itinerary/timing, and provide the next booking/payment step.",
+    "handler": "travel_sales",
+    "priority": "normal",
+    "confidence": 0.97,
+    "human_review": false,
+    "reasons": [
+      "Customer is following up on an existing quote and asks how to proceed/pay."
+    ]
+  },
+  {
+    "id": "MSG-021",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "invoice_payment_request",
+    "entities": {},
+    "next_action": "Verify the invoice and supplier/payment details through the finance workflow before any payment is processed.",
+    "handler": "finance_review",
+    "priority": "high",
+    "confidence": 0.98,
+    "human_review": true,
+    "reasons": [
+      "Payment and bank-detail handling is high risk."
+    ]
+  },
+  {
+    "id": "MSG-022",
+    "brand": "hair-studio",
+    "channel": "whatsapp",
+    "intent": "appointment_cancellation_or_reschedule",
+    "entities": {},
+    "next_action": "Locate tomorrow's 11am appointment and ask whether the customer wants to cancel or reschedule; then update the booking.",
+    "handler": "salon_booking",
+    "priority": "normal",
+    "confidence": 0.91,
+    "human_review": true,
+    "reasons": [
+      "Customer implies a cancellation/reschedule but does not explicitly choose one."
+    ]
+  },
+  {
+    "id": "MSG-023",
+    "brand": "vitalis-wellness",
+    "channel": "email",
+    "intent": "positive_order_feedback",
+    "entities": {
+      "references": [
+        "VW-47203"
+      ]
+    },
+    "next_action": "Record the positive delivery/packaging feedback and optionally acknowledge the customer.",
+    "handler": "feedback_automation",
+    "priority": "low",
+    "confidence": 0.99,
+    "human_review": false,
+    "reasons": [
+      "Customer reports successful delivery and provides positive feedback."
+    ]
+  },
+  {
+    "id": "MSG-024",
+    "brand": "voyage-travel",
+    "channel": "email",
+    "intent": "job_application",
+    "entities": {
+      "city_or_route": [
+        "gurgaon"
+      ]
+    },
+    "next_action": "Acknowledge the application and route the resume and candidate details to recruiting for review.",
+    "handler": "recruiting",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": true,
+    "reasons": [
+      "Employment enquiry includes experience, location, and a resume."
+    ]
+  },
+  {
+    "id": "MSG-025",
+    "brand": "vitalis-wellness",
+    "channel": "whatsapp",
+    "intent": "empty_or_unreadable",
+    "entities": {},
+    "next_action": "Ask the customer to resend the message or provide the missing content.",
+    "handler": "human_support",
+    "priority": "normal",
+    "confidence": 0.99,
+    "human_review": true,
+    "reasons": [
+      "No usable customer request was provided."
+    ]
+  }
+]

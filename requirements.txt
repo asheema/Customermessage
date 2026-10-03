@@ -1,0 +1,18 @@
+pytest>=8.0,<9
+streamlit>=1.40,<2
+requests>=2.31,<3
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+pydantic>=2.0,<3
+redis>=5.0,<7
+prometheus-client>=0.20,<1
+psycopg[binary]>=3.2,<4
+python-multipart>=0.0.9,<1
+
+# Gemini API support
+# Uses the lightweight Google Gen AI SDK only if needed by extensions
+
+# Langfuse v4 + official Google Gemini instrumentation
+langfuse>=4.7.0,<5
+openinference-instrumentation-google-genai>=0.1.0,<1
+google-genai>=1.0.0,<2

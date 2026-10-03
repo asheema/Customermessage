@@ -1,0 +1,52 @@
+services:
+  triage-api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://triage:triage@postgres:5432/triage
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+    command: ["uvicorn","app.api:app","--host","0.0.0.0","--port","8000"]
+    depends_on: [redis, postgres]
+
+  triage-worker:
+    build: .
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://triage:triage@postgres:5432/triage
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+    command: ["python","-m","app.worker"]
+    depends_on: [redis, postgres]
+
+  triage-ui:
+    build: .
+    ports: ["8501:8501"]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://triage:triage@postgres:5432/triage
+    command: ["streamlit","run","app/ui.py","--server.address=0.0.0.0","--server.port=8501"]
+    depends_on: [postgres, redis]
+
+  redis:
+    image: redis:7-alpine
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: triage
+      POSTGRES_USER: triage
+      POSTGRES_PASSWORD: triage
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+
+  # Optional local LLM. Leave OLLAMA_MODEL empty to use the zero-credential fallback.
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["llm"]
+    ports: ["11434:11434"]
+    volumes: ["ollama_data:/root/.ollama"]
+
+volumes:
+  postgres_data:
+  ollama_data:
